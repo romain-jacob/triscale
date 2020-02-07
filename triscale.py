@@ -1,5 +1,5 @@
 """
-triscale module
+TriScale module
 
 Public API
     network_profiling
@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
-from helpers import convergence_test, ThompsonCI, independence_test, min_number_samples, repeatability_test
+from helpers import convergence_test, ThompsonCI, ThompsonCI_onesided, independence_test, min_number_samples, repeatability_test
 from triplots import theil_plot, autocorr_plot, ThompsonCI_plot
 
 # ----------------------------------------------------------------------------------------------------------------------------
@@ -372,9 +372,12 @@ def analysis_metric(    data,
         columns named `x` and `y`.
     metric : dictionary
         TriScale metric dictionary.
-        - "measure" key is compulsory. The corresponding value is a float
-        between 0 and 100 and correspond to the percentile used as performance
+        - "measure" key is compulsory.
+        The corresponding value can be a float between 0 and 100, or a string.
+        When a float, it corresponds to the percentile used as performance
         measure for that metric.
+        When a string, it is the name of the metric to compute. Current supported are:
+            + 'mean': arithmetic mean
         Optional keys:
             - "bounds" : list-like of len 2.
             Expected extremal values for the measure, used for the convergence test.
@@ -429,7 +432,7 @@ def analysis_metric(    data,
 
     todo = ''
     todo += '# ---------------------------------------------------------------- \n'
-    todo += '# TODO analysis_preprocessing \n'
+    todo += '# TODO analysis_metrics \n'
     todo += '# ---------------------------------------------------------------- \n'
     todo += '\n'
     # todo += '- modif convergence_test() to output a dictionary\n'
@@ -445,10 +448,14 @@ def analysis_metric(    data,
     # Parse data
     if isinstance(data, str):
         try:
-            df = pd.read_csv(data, delimiter=',', names=['x', 'y'], header=0)
+            df = pd.read_csv(   data,
+                                delimiter=',',
+                                names=['x', 'y'],
+                                header=0,
+                                usecols=[0,1], # consider only the first two columns
+                                )
         except FileNotFoundError:
-            if verbose:
-                print(repr(data) + " not found")
+            print(repr(data) + " not found")
             return False, np.nan, None
     elif isinstance(data, pd.DataFrame):
         try:
@@ -461,12 +468,16 @@ def analysis_metric(    data,
 
     # Verify that the csv file is not empty (at least some 'y' data is in there)
     df.dropna(inplace=True)
-    if len(df.index) < 20:
-        if verbose:
-            print("Input file has only %d data points (min 20 required) (%s)"
-                        % ( len(df.index), data_file ))
+    if len(df.index) < 2:
+        print("%s\n-> Input data has only %d data points (min 2 required)\n"
+                        % ( repr(data), len(df.index) ))
         return False, np.nan, None
 
+    # Initialize convenience variables
+    samples_x  = df.x.values
+    samples_y  = df.y.values
+    metric_y = []
+    metric_x = []
 
     # Metric
     if 'bounds' not in metric:
@@ -502,25 +513,52 @@ def analysis_metric(    data,
     if run_convergence_test:
 
         # Compute the metric series
-        samples_x  = df.x.values
-        samples_y  = df.y.values
-        metric_y = []
-        metric_x = []
+        fixed_window=True
+        if fixed_window:
+            ## Version with fixed window size
+            nb_chuncks = min(int(len(samples_y)/2), 100)
+            chunck_len = int(len(samples_y)/2)
+            step = chunck_len/nb_chuncks
+            # print(nb_chuncks,chunck_len, step)
+            for i in range(0,nb_chuncks):
+                start_index = int(i*step)
+                stop_index = start_index+chunck_len
+                # Show the sample in the middle of the sliding window
+                metric_x.append(samples_x[int(start_index+chunck_len/2)])
 
-        if len(samples_y) > 200:
-            nb_chuncks = 200
+                if isinstance(metric['measure'], str):
+                    if metric['measure'] == 'mean':
+                        metric_y.append(np.mean(samples_y[start_index:stop_index]))
+                    elif metric['measure'] == 'minimum':
+                        metric_y.append(np.minimum(samples_y[start_index:stop_index]))
+                    elif metric['measure'] == 'maximum':
+                        metric_y.append(np.maximum(samples_y[start_index:stop_index]))
+                    else:
+                        raise ValueError('Unsupported measure')
+                else:
+                    metric_y.append(np.percentile(  samples_y[start_index:stop_index],
+                                                    metric['measure'],
+                                                    interpolation='midpoint' ))
         else:
-            nb_chuncks = len(samples_y)
-
-        # for chuncks in range(int(nb_chuncks/2),nb_chuncks+1):
-        for chuncks in range(0,int(nb_chuncks/2)):
-            chunck_x   = chuncks*2+1
-            chunck_len = int((int(nb_chuncks/2+chuncks)*len(samples_y)/nb_chuncks))
-            metric_y.append(np.percentile(  samples_y[:chunck_len],
-                                            metric['measure'],
-                                            interpolation='midpoint' ))
-            metric_x.append(samples_x[int(chunck_x*len(samples_y)/nb_chuncks)])
-            # print(chunck_x, metric_x)
+            ## Version with increasing window size
+            if len(samples_y) > 200:
+                nb_chuncks = 200
+            else:
+                nb_chuncks = len(samples_y)
+            for chuncks in range(0,int(nb_chuncks/2)):
+                chunck_x   = chuncks*2+1
+                chunck_len = int((int(nb_chuncks/2+chuncks)*len(samples_y)/nb_chuncks))
+                if isinstance(metric['measure'], str):
+                    if metric['measure'] == 'mean':
+                        metric_y.append(np.mean(samples_y[:chunck_len]))
+                    else:
+                        raise ValueError('Unsupported measure')
+                else:
+                    metric_y.append(np.percentile(  samples_y[:chunck_len],
+                                                    metric['measure'],
+                                                    interpolation='midpoint' ))
+                metric_x.append(samples_x[int(chunck_x*len(samples_y)/nb_chuncks)])
+                # print(chunck_x, metric_x)
 
         # Convergence test
         results = convergence_test(np.array(metric_x),
@@ -587,9 +625,22 @@ def analysis_metric(    data,
             return False, np.nan, figure
         # Test passed
         else:
+            # return the median of the computed metric data
             return True, np.percentile(metric_y, 50 , interpolation='nearest'), figure
     else:
-        return True, np.percentile(df.y.values, metric['measure'] , interpolation='nearest'), figure
+        if isinstance(metric['measure'], str):
+            if metric['measure'] == 'mean':
+                measure = np.mean(df.y.values)
+            elif metric['measure'] == 'minimum':
+                measure = np.minimum(df.y.values)
+            elif metric['measure'] == 'maximum':
+                measure = np.maximum(df.y.values)
+            else:
+                raise ValueError('Unsupported measure')
+        else:
+            measure = np.percentile(df.y.values, metric['measure'] , interpolation='nearest')
+
+        return True, measure, figure
 
 
 
@@ -672,6 +723,12 @@ def analysis_kpi(data,
     # Input checks
     ##
 
+    # Define as np array
+    data = np.array(data)
+
+    # Remove nan's
+    data = data[~np.isnan(data)]
+
     # Force one-sided CI for the KPI
     if 'class' in KPI:
         if KPI['class'] != 'one-sided':
@@ -690,6 +747,9 @@ def analysis_kpi(data,
                 raise ValueError("If the median is used as percentile, \n"
                              "\t\tspecify the desired 'bound': 'lower' of 'upper'")
 
+    if 'bounds' not in KPI:
+        KPI['bounds'] = [data.min(),data.max()]
+
     # For now, we assume the inputs are correct...
     output_log = ''
     sorted_data = np.sort(data)
@@ -707,6 +767,17 @@ def analysis_kpi(data,
                                            50,
                                            10)
     stationary = independence_test(data)
+    # print(weak_stationary,stationary)
+    # if not stationary:
+    #     print(weak_stationary,stationary)
+    #     figure = theil_plot(    np.array(data),
+    #                             convergence_data=[weak_stationary, trend, tol])
+    #     figure.show()
+    #
+    #     autocorr_plot( data )
+    #
+    #     wait = input("PRESS ENTER TO CONTINUE.")
+
     stationary = (stationary and weak_stationary)
 
     if stationary:
@@ -734,6 +805,21 @@ def analysis_kpi(data,
                            KPI['confidence'],
                            KPI['class'],
                            verbose)
+
+
+    KPI_bound = ThompsonCI_onesided(
+        len(data),
+        KPI['percentile'],
+        KPI['confidence'],
+        KPI['bound'],
+        verbose)
+
+    # print(len(data),
+    # KPI['percentile'],
+    # KPI['confidence'],
+    # KPI['bound'])
+    # print(KPI_bound)
+
     ##
     # Plots
     ##
@@ -742,8 +828,9 @@ def analysis_kpi(data,
             autocorr_plot( data )
 
         layout = go.Layout(
-            title=KPI['name'],
             width=500)
+        if 'name' in KPI:
+            layout.update(title=KPI['name'])
         if custom_layout is not None:
             layout.update(custom_layout)
         if not np.isnan(KPI_bounds[0]):
@@ -763,7 +850,8 @@ def analysis_kpi(data,
     else:
         KPI_out = sorted_data[KPI_bounds[0]]
 
-    return stationary, KPI_out
+    # return stationary, KPI_out
+    return stationary, sorted_data[KPI_bound]
 
 # ----------------------------------------------------------------------------------------------------------------------------
 # ANALYSIS_VARIABILITY
@@ -837,6 +925,15 @@ def analysis_variability(data,
     todo += '# ---------------------------------------------------------------- \n'
     if verbose:
         print('%s' % todo)
+
+    # Define as np array
+    data = np.array(data)
+
+    # Remove nan's
+    data = data[~np.isnan(data)]
+
+    if 'bounds' not in score:
+        score['bounds'] = [data.min(),data.max()]
 
     ##
     # Independence test

@@ -174,7 +174,7 @@ def theil_plot(  y,
             ],
             hoverinfo='skip',
             fill='toself',
-            fillcolor=colors.light_orange,
+            fillcolor=colors.light_blue,
             line=dict(color='rgba(0,0,0,0)')
         )
         figure.add_trace(bounds_slope)
