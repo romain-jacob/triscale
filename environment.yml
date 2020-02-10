@@ -1,5 +1,6 @@
 name: TriScale
 channels:
+  - plotly
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
@@ -70,7 +71,7 @@ dependencies:
   - pexpect=4.8.0=py38_0
   - pickleshare=0.7.5=py38_1000
   - pip=20.0.2=py38_1
-  - plotly=4.4.1=py_0
+  - plotly=4.5.0=py_0
   - prometheus_client=0.7.1=py_0
   - prompt_toolkit=3.0.3=py_0
   - ptyprocess=0.6.0=py38_0
