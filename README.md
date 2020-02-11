@@ -26,18 +26,3 @@ Implements the main functions of _TriScale_ (the public API).
 Additional support functions for running the _TriScale_ analysis.
 - `triplots.py`  
 Plotting functions used in _TriScale._ All plots are created using [Plotly](https://github.com/plotly/plotly.py).
-
-## Reproducing the Paper
-
-This repository contains all the necessary code and information to reproduce the results analysis and plots presented in the [_TriScale_ paper](https://doi.org/10.5281/zenodo.3464273).
-
-#### Case Studies
-
-The [_TriScale_ paper](https://doi.org/10.5281/zenodo.3464273) includes a set of case studies that illustrate the use and benefits of _TriScale_ for concrete networking performance evaluations.
-This repository contains the notebooks that allows to reproduce the analysis of these case studies.
-
-**... wip ...**
-
-#### Plots
-
-**... wip ...**
