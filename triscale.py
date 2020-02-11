@@ -22,7 +22,7 @@ from triplots import theil_plot, autocorr_plot, ThompsonCI_plot
 
 def network_profiling(  link_quality_data,
                         link_quality_bounds,
-                        link_quality_name=None,
+                        name=None,
                         print_output=False,
                         verbose=False):
     """
@@ -56,7 +56,7 @@ def network_profiling(  link_quality_data,
     link_quality_bounds : list-like of len 2.
         Expected extremal values for the link quality data,
         used for the convergence test.
-    link_quality_name : string, optional
+    name : string, optional
         Label for the plots axis.
         Default : None
     print_output : True/False, optional
@@ -91,8 +91,8 @@ def network_profiling(  link_quality_data,
 
     References
     ----------
-    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible Networking
-        Evaluations", Submitted to NSDI, 2020,
+    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible
+        Performance Evaluations in Networking", 2020,
         https://doi.org/10.5281/zenodo.3464273
     .. [2] Peter J. Brockwell, Richard A. Davis, and Stephen E. Fienberg.
         "Time Series: Theory and Methods: Theory and Methods." Springer Science
@@ -120,7 +120,7 @@ def network_profiling(  link_quality_data,
 
     convergence = { 'expected': True,
                     'confidence': 95,  # in %
-                    'tolerance': 1,    # in %
+                    'tolerance': 5,    # in %
                     }
 
     # network_name = 'FlockLab - DPP-cc430'
@@ -134,20 +134,28 @@ def network_profiling(  link_quality_data,
     ##
     # Checking the inputs
     ##
+    if isinstance(link_quality_data, str):
+        try:
+            link_quality_data = pd.read_csv(   link_quality_data,
+                                delimiter=',',
+                                names=['date_time', 'link_quality'],
+                                header=0,
+                                usecols=[0,1], # consider only the first two columns
+                                )
+        except FileNotFoundError:
+            print(repr(link_quality_data) + " not found")
+            return None, None
+    elif isinstance(link_quality_data, pd.DataFrame):
+        # Data must be a dataframe with (at least) two columns
+        # - link_quality
+        # - date_time (can also be the index)
+        try:
+            df = data[['date_time', 'link_quality']]
+        except KeyError:
+            raise ValueError("Input DataFrame must contain columns names 'date_time' and 'link_quality'.")
+    else:
+        raise ValueError("Wrong input type. Expect a string or a DataFrame, got "+repr(link_quality_data)+".")
 
-    ##
-    # Data must be a dataframe with (at least) two columns
-    # - link_quality
-    # - date_time (can also be the index)
-    if 'link_quality' not in link_quality_data.columns:
-        raise ValueError("""Wrong input. The 'data' DataFrame must contain a
-                            'link_quality' column.""")
-
-    if ('date_time' not in link_quality_data.columns) and (
-        not isinstance(link_quality_data.index, pd.DatetimeIndex)):
-        raise ValueError("""Wrong input.
-                            The 'data' DataFrame must contain a 'date_time'
-                            column or have DatetimeIndex type.""")
 
     # Parse dates
     if 'date_time' in link_quality_data.columns:
@@ -179,7 +187,7 @@ def network_profiling(  link_quality_data,
 
     # Plot the time series and its trend
     default_layout={'xaxis' : {'title':None},
-                    'yaxis' : {'title':link_quality_name}}
+                    'yaxis' : {'title':name}}
     datetime = np.array(link_quality_data.index, dtype=object)
     fig_theil = theil_plot( link_quality_data.link_quality.values,
                             x=datetime,
@@ -277,8 +285,8 @@ def experiment_sizing(percentile,
 
     References
     ----------
-    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible Networking
-        Evaluations", Submitted to NSDI, 2020,
+    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible
+        Performance Evaluations in Networking", 2020,
         https://doi.org/10.5281/zenodo.3464273
     .. [2] William R. Thompson, "On Confidence Ranges for the Median and Other
         Expectation Distributions for Populations of Unknown Distribution Form",
@@ -378,6 +386,8 @@ def analysis_metric(    data,
         measure for that metric.
         When a string, it is the name of the metric to compute. Current supported are:
             + 'mean': arithmetic mean
+            + 'minimum' : minimum
+            + 'maximum' : maximum
         Optional keys:
             - "bounds" : list-like of len 2.
             Expected extremal values for the measure, used for the convergence test.
@@ -424,8 +434,8 @@ def analysis_metric(    data,
 
     References
     ----------
-    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible Networking
-        Evaluations", Submitted to NSDI, 2020,
+    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible
+        Performance Evaluations in Networking", 2020,
         https://doi.org/10.5281/zenodo.3464273
 
     """
@@ -488,6 +498,7 @@ def analysis_metric(    data,
         metric_label = ''
     else:
         metric_label = metric['name']
+        print(metric['name'])
         if 'unit' in metric:
             metric_label += ' [' + metric['unit'] + ']'
 
@@ -503,7 +514,7 @@ def analysis_metric(    data,
             convergence['confidence'] = 95
         if 'tolerance' not in convergence:
             # Default to 1% tolerance
-            convergence['tolerance'] = 1
+            convergence['tolerance'] = 5
     else:
         run_convergence_test = False
 
@@ -632,9 +643,9 @@ def analysis_metric(    data,
             if metric['measure'] == 'mean':
                 measure = np.mean(df.y.values)
             elif metric['measure'] == 'minimum':
-                measure = np.minimum(df.y.values)
+                measure = np.amin(df.y.values)
             elif metric['measure'] == 'maximum':
-                measure = np.maximum(df.y.values)
+                measure = np.amax(df.y.values)
             else:
                 raise ValueError('Unsupported measure')
         else:
@@ -704,8 +715,8 @@ def analysis_kpi(data,
 
     References
     ----------
-    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible Networking
-        Evaluations", Submitted to NSDI, 2020,
+    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible
+        Performance Evaluations in Networking", 2020,
         https://doi.org/10.5281/zenodo.3464273
 
     """
@@ -748,7 +759,9 @@ def analysis_kpi(data,
                              "\t\tspecify the desired 'bound': 'lower' of 'upper'")
 
     if 'bounds' not in KPI:
-        KPI['bounds'] = [data.min(),data.max()]
+        raise ValueError(
+            """Specify the expected bounds for the metric data;
+            if bounds are unknown, use min and max values.""")
 
     # For now, we assume the inputs are correct...
     output_log = ''
@@ -759,16 +772,20 @@ def analysis_kpi(data,
     ##
     if len(data) < 2:
         weak_stationary = False
-    else:
+        print("Invalid metric data (only one data point)")
+        return weak_stationary, np.nan
 
-        weak_stationary, trend, tol = convergence_test(np.arange(len(data)),
-                                           np.array(data),
-                                           KPI['bounds'],
-                                           50,
-                                           10)
+    # Step 1: weak stationarity
+    weak_stationary, trend, tol = convergence_test(np.arange(len(data)),
+                                       np.array(data),
+                                       KPI['bounds'],
+                                       50,
+                                       10)
+
+    # Step 2: independence
     stationary = independence_test(data)
     # print(weak_stationary,stationary)
-    # if not stationary:
+    # if not weak_stationary:
     #     print(weak_stationary,stationary)
     #     figure = theil_plot(    np.array(data),
     #                             convergence_data=[weak_stationary, trend, tol])
@@ -781,7 +798,7 @@ def analysis_kpi(data,
     stationary = (stationary and weak_stationary)
 
     if stationary:
-        output_log += ('Data appears i.i.d. (95%% confidence)\n')
+        output_log += ('Data appears i.i.d. (95% confidence)\n')
     else:
         # Check whether the data points have all the same value
         # -> This leads the stationarity test to fail
@@ -823,21 +840,46 @@ def analysis_kpi(data,
     ##
     # Plots
     ##
+
+    layout = go.Layout(width=500)
+    if 'name' in KPI:
+        layout.update(title=KPI['name'])
+
     if to_plot is not None:
+
+        if 'series' in to_plot:
+            figure = theil_plot(
+                np.array(data),
+                convergence_data=[weak_stationary, trend, tol],
+                )
+            figure.show()
+
         if 'autocorr' in to_plot:
             autocorr_plot( data )
 
-        layout = go.Layout(
-            width=500)
-        if 'name' in KPI:
-            layout.update(title=KPI['name'])
+        # KPI annotation
+        note_text = "KPI: %2.2f" % sorted_data[KPI_bound]
+        if 'unit' in KPI:
+            note_text += ' ' + KPI['unit']
+        note = go.layout.Annotation(
+                x=0.5,
+                y=0.15,
+                xref="paper",
+                yref="paper",
+                text=note_text,
+                showarrow=False,
+            )
+        layout['annotations'] = [note]
+
         if custom_layout is not None:
             layout.update(custom_layout)
         if not np.isnan(KPI_bounds[0]):
             if 'horizontal' in to_plot:
-                ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'horizontal', layout, out_name=plot_out_name)
+                figure = ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'horizontal', layout, out_name=plot_out_name)
+                figure.show()
             if 'vertical' in to_plot:
-                ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'vertical', layout, out_name=plot_out_name)
+                figure = ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'vertical', layout, out_name=plot_out_name)
+                figure.show()
 
     ##
     # outputs
@@ -912,8 +954,8 @@ def analysis_variability(data,
 
     References
     ----------
-    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible Networking
-        Evaluations", Submitted to NSDI, 2020,
+    .. [1] Anonymous, "TriScale: A Framework Supporting Reproducible
+        Performance Evaluations in Networking", 2020,
         https://doi.org/10.5281/zenodo.3464273
 
     """
@@ -940,13 +982,14 @@ def analysis_variability(data,
     ##
     if len(data) < 2:
         weak_stationary = False
-    else:
+        print("Invalid KPI data (only one data point)")
+        return weak_stationary, np.nan
 
-        weak_stationary, trend, tol = convergence_test(np.arange(len(data)),
-                                           np.array(data),
-                                           score['bounds'],
-                                           50,
-                                           10)
+    weak_stationary, trend, tol = convergence_test(np.arange(len(data)),
+                                       np.array(data),
+                                       score['bounds'],
+                                       50,
+                                       10)
     stationary = independence_test(data)
     stationary = (stationary and weak_stationary)
 
@@ -978,37 +1021,61 @@ def analysis_variability(data,
                                    verbose)
 
     ##
-    # Plots
-    ##
-    if to_plot is not None:
-
-        if 'autocorr' in to_plot:
-            autocorr_plot( data )
-
-        layout = go.Layout(
-            title='Variability Score'
-        )
-        if custom_layout is not None:
-            layout.update(custom_layout)
-        if not np.isnan(variability_bound[0]):
-            if 'horizontal' in to_plot:
-                ThompsonCI_plot( data, variability_bound, 'two-sided', 'horizontal', layout, out_name=plot_out_name)
-            if 'vertical' in to_plot:
-                ThompsonCI_plot( data, variability_bound, 'two-sided', 'vertical', layout, out_name=plot_out_name)
-
-
-    ##
     # Compute the score
     ##
-    data.sort()
+    sorted_data = np.sort(data)
     if variability_bound[0] is not np.nan:
         variability_bound_values = [ data[variability_bound[k]] for k in [0,1] ]
-        variability_score = data[variability_bound[1]] - data[variability_bound[0]]
+        variability_score = sorted_data[variability_bound[1]] - sorted_data[variability_bound[0]]
     else:
         variability_score = np.nan
         variability_bound_values = [np.nan, np.nan, np.nan]
 
     relative_score = variability_score / ((variability_bound_values[0] + variability_bound_values[1])/2)
+
+
+    ##
+    # Plots
+    ##
+    if to_plot is not None:
+
+        layout = go.Layout(
+            width=500,
+        )
+
+        if 'series' in to_plot:
+            figure = theil_plot(
+                np.array(data),
+                convergence_data=[weak_stationary, trend, tol],
+                )
+            figure.show()
+
+        if 'autocorr' in to_plot:
+            autocorr_plot( data )
+
+        # KPI annotation
+        note_text = "Var. score: %2.2f" % variability_score
+        if 'unit' in score:
+            note_text += ' ' + score['unit']
+        note = go.layout.Annotation(
+                x=0.5,
+                y=0.15,
+                xref="paper",
+                yref="paper",
+                text=note_text,
+                showarrow=False,
+            )
+        layout['annotations'] = [note]
+
+        if custom_layout is not None:
+            layout.update(custom_layout)
+        if not np.isnan(variability_bound[0]):
+            if 'horizontal' in to_plot:
+                figure = ThompsonCI_plot( data, variability_bound, 'two-sided', 'horizontal', layout, out_name=plot_out_name)
+                figure.show()
+            if 'vertical' in to_plot:
+                figure = ThompsonCI_plot( data, variability_bound, 'two-sided', 'vertical', layout, out_name=plot_out_name)
+                figure.show()
 
     return stationary, variability_bound_values[0], variability_bound_values[1], variability_score, relative_score
 

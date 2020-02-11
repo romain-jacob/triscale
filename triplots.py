@@ -403,7 +403,7 @@ def ThompsonCI_plot(    data,
     # Output
     figure.add_trace(samples)
     figure.update_layout(shapes=[interval_shape])
-    figure.show()
+    # figure.show()
     if out_name is not None:
         figure.write_image(out_name)
 
