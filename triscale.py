@@ -146,11 +146,12 @@ def network_profiling(  link_quality_data,
             print(repr(link_quality_data) + " not found")
             return None, None
     elif isinstance(link_quality_data, pd.DataFrame):
-        # Data must be a dataframe with (at least) two columns
+        # Data must be a dataframe with (at least) two columns (can also be index)
         # - link_quality
-        # - date_time (can also be the index)
+        # - date_time
+        link_quality_data.reset_index(inplace=True)
         try:
-            df = data[['date_time', 'link_quality']]
+            df = link_quality_data[['date_time', 'link_quality']]
         except KeyError:
             raise ValueError("Input DataFrame must contain columns names 'date_time' and 'link_quality'.")
     else:
@@ -352,7 +353,6 @@ def experiment_sizing(percentile,
 
     return N_one, N_two
 
-
 # ----------------------------------------------------------------------------------------------------------------------------
 # ANALYSIS_METRIC
 # ----------------------------------------------------------------------------------------------------------------------------
@@ -498,7 +498,6 @@ def analysis_metric(    data,
         metric_label = ''
     else:
         metric_label = metric['name']
-        print(metric['name'])
         if 'unit' in metric:
             metric_label += ' [' + metric['unit'] + ']'
 
@@ -817,25 +816,15 @@ def analysis_kpi(data,
     ##
     # Compute the KPI
     ##
-    KPI_bounds = ThompsonCI(len(data),
+    LB,UB = ThompsonCI(len(data),
                            KPI['percentile'],
                            KPI['confidence'],
                            KPI['class'],
                            verbose)
-
-
-    KPI_bound = ThompsonCI_onesided(
-        len(data),
-        KPI['percentile'],
-        KPI['confidence'],
-        KPI['bound'],
-        verbose)
-
-    # print(len(data),
-    # KPI['percentile'],
-    # KPI['confidence'],
-    # KPI['bound'])
-    # print(KPI_bound)
+    if KPI['bound'] == 'lower':
+        KPI_CI = LB
+    else:
+        KPI_CI = UB
 
     ##
     # Plots
@@ -858,7 +847,7 @@ def analysis_kpi(data,
             autocorr_plot( data )
 
         # KPI annotation
-        note_text = "KPI: %2.2f" % sorted_data[KPI_bound]
+        note_text = "KPI: %2.2f" % sorted_data[KPI_CI]
         if 'unit' in KPI:
             note_text += ' ' + KPI['unit']
         note = go.layout.Annotation(
@@ -873,27 +862,21 @@ def analysis_kpi(data,
 
         if custom_layout is not None:
             layout.update(custom_layout)
-        if not np.isnan(KPI_bounds[0]):
+        if not np.isnan(KPI_CI):
             if 'horizontal' in to_plot:
-                figure = ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'horizontal', layout, out_name=plot_out_name)
+                figure = ThompsonCI_plot( data, [LB,UB], KPI['bound'], 'horizontal', layout, out_name=plot_out_name)
                 figure.show()
             if 'vertical' in to_plot:
-                figure = ThompsonCI_plot( data, KPI_bounds, KPI['bound'], 'vertical', layout, out_name=plot_out_name)
+                figure = ThompsonCI_plot( data, [LB,UB], KPI['bound'], 'vertical', layout, out_name=plot_out_name)
                 figure.show()
 
     ##
     # outputs
     ##
-    if KPI_bounds == [np.nan, np.nan]:
+    if np.isnan(KPI_CI):
         return stationary, np.nan
-
-    if KPI['bound'] == 'upper':
-        KPI_out = sorted_data[KPI_bounds[1]]
     else:
-        KPI_out = sorted_data[KPI_bounds[0]]
-
-    # return stationary, KPI_out
-    return stationary, sorted_data[KPI_bound]
+        return stationary, sorted_data[KPI_CI]
 
 # ----------------------------------------------------------------------------------------------------------------------------
 # ANALYSIS_VARIABILITY
@@ -983,7 +966,7 @@ def analysis_variability(data,
     if len(data) < 2:
         weak_stationary = False
         print("Invalid KPI data (only one data point)")
-        return weak_stationary, np.nan
+        return weak_stationary, np.nan, np.nan, np.nan, np.nan
 
     weak_stationary, trend, tol = convergence_test(np.arange(len(data)),
                                        np.array(data),

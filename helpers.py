@@ -283,83 +283,123 @@ def ThompsonCI( n_samples, percentile, confidence, CI_class=None, verbose=False)
     # Handling the CI_class parameter
     if not (CI_class == 'one-sided' or CI_class == 'two-sided' or CI_class is None):
         raise ValueError("Invalid CI_class: "+repr(CI_class)+". Valid 'CI_class' values: 'one-sided' or 'two-sided'")
-    if percentile == 50 and CI_class is None:
-        raise ValueError("CI_class parameter is required for computing a confidence interval for the median. Valid 'CI_class' values: 'one-sided' or 'two-sided'")
+    elif CI_class is None:
+        CI_class = 'one-sided'
+        print('CI_class non-specified. Computing one-sided CIs.')
 
-    # Always work with lower percentiles and compute a lower-bound (single-sided confidence interval)
-    if percentile > 50:
-        p_high = percentile
-        p_low = 100 - percentile
-    else:
-        p_low  = percentile
-        p_high = 100 - percentile
+    if CI_class == 'one-sided':
 
-    Nmax = int(n_samples/2)
-    firstel = range(Nmax)
-    lastel = [n_samples-1-k for k in firstel]
+        # 1. Compute the lower-bound of P_p
 
-    # compute all probabilities from the binomiale distribution for the percentile of interest
-    bd=scipy.stats.binom(n_samples,p_low/100)
-    ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in firstel])]
+        p_work = percentile
+        # compute all probabilities from the binomiale distribution for the percentile of interest
+        bd=scipy.stats.binom(n_samples,p_work/100)
+        ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in range(n_samples)])]
 
-    if percentile == 50 and CI_class == 'two-sided':
-        ppm = [np.maximum(1-x,0.0) for x in np.cumsum([2*bd.pmf(k) for k in firstel])]
-    else:
-        ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in firstel])]
-
-
-    # check the probabilities against the confidence level desired
-    CI = None
-    output_log = ''
-    for k in reversed(range(Nmax)):
-        if ppm[k]>=confidence/100:
-            CI = [ firstel[k], lastel[k] ]
-#                 CI = [ firstel[k]+1, lastel[k]+1, serie[firstel[k]], serie[lastel[k]] ]
-
-            if verbose:
-                output_log += ('With %g data samples\n') %  n_samples
-
-                if percentile == 50 and CI_class == 'two-sided':
-                    output_log += ('( x[%g], x[%g] ) is a %.0f%%-confidence interval for the median') % (
-                        CI[0], CI[1], confidence )
-                    output_log += (' (two-sided).')
-
-                if percentile == 50 and CI_class == 'one-sided':
-                    output_log += ('x[%g] and x[%g] are the lower- and upper- bounds ') % ( CI[0], CI[1] )
-                    output_log += ('of %.0f%%-confidence intervals for the median') % ( confidence )
-                    output_log += (' (one-sided).')
-
-                if percentile != 50:
-                    output_log += ('x[%g] and x[%g] are the lower- and upper- bounds ') % ( CI[0], CI[1] )
-                    output_log += ('of %.0f%%-confidence intervals for P_%.0f and P_%.0f') % ( confidence, p_low, p_high )
-                    output_log += (' (one-sided).')
-
-            break
-
-    if CI is None:
-        CI = [ np.nan, np.nan ]
-        output_log += ('%g is not enough data samples to estimate a %.0f%% confidence interval for '
-                       % ( n_samples, confidence ))
-        if percentile != 50:
-            output_log += ('P_%.0f and P_%.0f.') % ( p_low, p_high )
+        # search the index defining a lower-bound for p_work
+        if ppm[0] < confidence/100:
+            LB=np.nan
         else:
-            output_log += 'the median'
-            if CI_class == 'two-sided':
-                output_log += (' (two-sided).')
+            for k in range(n_samples):
+                # search for first index reaching below the desired confidence
+                if ppm[k] < confidence/100:
+                    # lower-bound is the previous index
+                    LB = k-1
+                    break
+
+        # 2. Compute the lower-bound of P_(1-p)
+
+        p_work = 100 - percentile
+        # compute all probabilities from the binomiale distribution for the percentile of interest
+        bd=scipy.stats.binom(n_samples,p_work/100)
+        ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in range(n_samples)])]
+
+        # search the index defining a lower-bound for p_work
+        if ppm[0] < confidence/100:
+            tmp=np.nan
+        else:
+            for k in range(n_samples):
+                # search for first index reaching below the desired confidence
+                if ppm[k] < confidence/100:
+                    # lower-bound is the previous index
+                    tmp = k-1
+                    break
+
+        # 3. Deduce the upper-bound of P_p
+
+        if np.isnan(tmp):
+            UB = np.nan
+        else:
+            UB = ((n_samples-1) - tmp) # /!\ First index is 0 (not 1)
+
+        return LB,UB
+
+    if CI_class == 'two-sided':
+
+        ## Median
+
+        if percentile == 50:
+            # compute all probabilities from the binomiale distribution for the percentile of interest
+            bd=scipy.stats.binom(n_samples,0.5)
+            ppm = [np.maximum(1-x,0.0) for x in np.cumsum([2*bd.pmf(k) for k in range(n_samples)])]
+
+            # search the index defining a lower-bound for the median (two-sided)
+            if ppm[0] < confidence/100:
+                LB=np.nan
             else:
-                output_log += (' (one-sided).')
+                for k in range(n_samples):
+                    # search for first index reaching below the desired confidence
+                    if ppm[k] < confidence/100:
+                        # lower-bound is the previous index
+                        LB = k-1
+                        break
 
-    if verbose:
-        print(output_log)
+            # deduce the UB
+            UB = ((n_samples-1) - LB) # /!\ First index is 0 (not 1)
+            return LB,UB
 
-    return CI
+        ## Other percentiles
+
+        if percentile > 50:
+            p_high = percentile
+            p_low = 100 - percentile
+        elif percentile < 50:
+            p_low  = percentile
+            p_high = 100 - percentile
+
+        # 1. Compute lower-bound on P_low
+
+        p_work = p_low
+        # compute all probabilities from the binomiale distribution for the percentile of interest
+        bd=scipy.stats.binom(n_samples,p_work/100)
+        ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in range(n_samples)])]
+
+        # search the index defining a lower-bound for p_work
+        if ppm[0] < confidence/100:
+            LB=np.nan
+        else:
+            for k in range(n_samples):
+                # search for first index reaching below the desired confidence
+                if ppm[k] < confidence/100:
+                    # lower-bound is the previous index
+                    LB = k-1
+                    break
+
+        # 2. Deduce the upper-bound of P_high
+
+        if np.isnan(LB):
+            UB = np.nan
+        else:
+            UB = ((n_samples-1) - LB) # /!\ First index is 0 (not 1)
+
+        return LB,UB
 
 def ThompsonCI_onesided( n_samples, percentile, confidence, CI_side='lower', verbose=False):
     '''This function computes a one-sided confidence interval for the given
     percentile, with the given confidence level.
     Unless CI_side='upper', a lower-bound is computed.
     The index of the sample is returned.
-    None is there are not enough samples for the desired CI.
+    None is returned if there are not enough samples for the desired CI.
     '''
 
 
@@ -397,10 +437,12 @@ def ThompsonCI_onesided( n_samples, percentile, confidence, CI_side='lower', ver
     # compute all probabilities from the binomiale distribution for the percentile of interest
     bd=scipy.stats.binom(n_samples,p_work/100)
     ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in range(n_samples)])]
+    print([bd.pmf(k) for k in range(n_samples+1)])
+    # print(ppm)
 
     # search the index defining a lower-bound for p_work
     if ppm[0] < confidence/100:
-        return None
+        return np.nan
     else:
         for k in range(n_samples):
             # search for first index reaching below the desired confidence
@@ -415,58 +457,6 @@ def ThompsonCI_onesided( n_samples, percentile, confidence, CI_side='lower', ver
     else:
         return ((n_samples-1) - CI) # First index is 0 (not 1)
 
-
-    # if percentile == 50 and CI_class == 'two-sided':
-    #     ppm = [np.maximum(1-x,0.0) for x in np.cumsum([2*bd.pmf(k) for k in firstel])]
-    # else:
-    #     ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in firstel])]
-
-
-    # check the probabilities against the confidence level desired
-#     CI = None
-#     output_log = ''
-#     for k in reversed(range(Nmax)):
-#         if ppm[k]>=confidence/100:
-#             CI = [ firstel[k], lastel[k] ]
-# #                 CI = [ firstel[k]+1, lastel[k]+1, serie[firstel[k]], serie[lastel[k]] ]
-#
-#             if verbose:
-#                 output_log += ('With %g data samples\n') %  n_samples
-#
-#                 if percentile == 50 and CI_class == 'two-sided':
-#                     output_log += ('( x[%g], x[%g] ) is a %.0f%%-confidence interval for the median') % (
-#                         CI[0], CI[1], confidence )
-#                     output_log += (' (two-sided).')
-#
-#                 if percentile == 50 and CI_class == 'one-sided':
-#                     output_log += ('x[%g] and x[%g] are the lower- and upper- bounds ') % ( CI[0], CI[1] )
-#                     output_log += ('of %.0f%%-confidence intervals for the median') % ( confidence )
-#                     output_log += (' (one-sided).')
-#
-#                 if percentile != 50:
-#                     output_log += ('x[%g] and x[%g] are the lower- and upper- bounds ') % ( CI[0], CI[1] )
-#                     output_log += ('of %.0f%%-confidence intervals for P_%.0f and P_%.0f') % ( confidence, p_low, p_high )
-#                     output_log += (' (one-sided).')
-#
-#             break
-#
-#     if CI is None:
-#         CI = [ np.nan, np.nan ]
-#         output_log += ('%g is not enough data samples to estimate a %.0f%% confidence interval for '
-#                        % ( n_samples, confidence ))
-#         if percentile != 50:
-#             output_log += ('P_%.0f and P_%.0f.') % ( p_low, p_high )
-#         else:
-#             output_log += 'the median'
-#             if CI_class == 'two-sided':
-#                 output_log += (' (two-sided).')
-#             else:
-#                 output_log += (' (one-sided).')
-#
-#     if verbose:
-#         print(output_log)
-    #
-    # return CI
 
 def repeatability_test( data,
                         confidence_repeatability=95,
