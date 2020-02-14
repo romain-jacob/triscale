@@ -10,13 +10,13 @@ Anonymous (under submission), 2020.
 - [Live Demo](#Live-Demo)
 - [Source Code](#Source-Code)
 - [Reproducing the Paper](#Reproducing-the-Paper)
- - [Case Studies](#Case-Studies)
-   - [casestudy_congestion-control.ipynb](#casestudy_congestion-control.ipynb)
-   - [casestudy_glossy.ipynb](#casestudy_glossy.ipynb)
-   - [casestudy_failure-detection.ipynb](#casestudy_failure-detection.ipynb)
-   - [casestudy_video-streaming.ipynb](#casestudy_video-streaming.ipynb)
- - [Plots](#Plots)
- - [Scalability Evaluation](#Scalability-Evaluation)
+  - [Case Studies](#Case-Studies)
+    - [casestudy_congestion-control.ipynb](#casestudy_congestion-control.ipynb)
+    - [casestudy_glossy.ipynb](#casestudy_glossy.ipynb)
+    - [casestudy_failure-detection.ipynb](#casestudy_failure-detection.ipynb)
+    - [casestudy_video-streaming.ipynb](#casestudy_video-streaming.ipynb)
+  - [Plots](#Plots)
+  - [Scalability Evaluation](#Scalability-Evaluation)
 
 ## Live Demo
 You can run a live demo of _TriScale_ directly in your web-browser  
