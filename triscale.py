@@ -834,7 +834,7 @@ def analysis_kpi(data,
     if 'name' in KPI:
         layout.update(title=KPI['name'])
 
-    if to_plot is not None:
+    if to_plot is not None and not np.isnan(KPI_CI):
 
         if 'series' in to_plot:
             figure = theil_plot(
