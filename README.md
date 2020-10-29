@@ -3,7 +3,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master)
 
 This repository contains an implementation of _TriScale_ a framework supporting reproducible performance evaluations in networking. _TriScale_ is described in details in the following paper
-> _TriScale: A Framework Supporting Reproducible Performance Evaluations Networking_  
+> _TriScale: A Framework Supporting Replicable Performance Evaluations Networking_  
 Anonymous (under submission), 2020.  
 [doi.org/10.5281/zenodo.3464273](https://doi.org/10.5281/zenodo.3464273)
 
@@ -52,14 +52,14 @@ This repository contains the notebooks that allows to reproduce the analysis of 
 
 #### `casestudy_congestion-control.ipynb`
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_congestion-control.ipynb)]
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_congestion-control.ipynb)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=casestudy_congestion-control.ipynb)
 
 This case study presents a comparison between 17 congestion-control schemes. It reproduces some of the analysis performed in the [Pantheon paper](https://pantheon.stanford.edu/), illustrates its limitations, and shows how the approach in _TriScale_ helps to overcome them.
 
 #### `casestudy_glossy.ipynb`
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_glossy.ipynb)]  
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_glossy.ipynb)  
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=casestudy_glossy.ipynb)
 
 This case study compares the performance of [Glossy](https://ieeexplore.ieee.org/document/5779066), a low-power wireless communication protocol, for different parameter values, using the [FlockLab testbed](http://flocklab.ethz.ch/) as experiment environment.
@@ -67,7 +67,7 @@ In particular, this case study illustrates the importance of network profiling: 
 
 #### `casestudy_failure-detection.ipynb`
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_failure-detection.ipynb)]  
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_failure-detection.ipynb)  
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=casestudy_failure-detection.ipynb)
 
 This case study revisits the analysis of [Blink](https://www.usenix.org/conference/nsdi19/presentation/holterbach), an algorithm that detects failures and reroutes traffic directly in the data plane. We only perform the data analysis and show how using _TriScale_ allows to generalize the results.
@@ -75,7 +75,7 @@ This case study revisits the analysis of [Blink](https://www.usenix.org/conferen
 
 #### `casestudy_video-streaming.ipynb`
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_video-streaming.ipynb)]  
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/casestudy_video-streaming.ipynb)  
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=casestudy_video-streaming.ipynb)
 
 This case study revisits the analysis of [Pensieve](https://dl.acm.org/doi/10.1145/3098822.3098843), a system that generates adaptive bitrate algorithms for video streaming using reinforcement learning.
@@ -87,7 +87,7 @@ All plots presented in the [_TriScale_ paper](https://doi.org/10.5281/zenodo.346
 
 > In order to run this notebook (either in Binder or locally), you will need to download the data from all the case studies. The required download commands are included in the notebook.
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/triscale_plots.ipynb)]  
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/triscale_plots.ipynb)  
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=triscale_plots.ipynb)
 
 ### Scalability Evaluation
@@ -97,5 +97,5 @@ The scalability evaluation of _TriScale_ can be reproduced by running the `trisc
 
 > Running this notebook on Binder is technically possible but not recommended: it includes time measurement of rather heavy computations, which is unlikely to be meaningful (the current load of the servers hosting [MyBinder.org](https://mybinder.org/) is unknown and unpredictable.)
 
-- [[Open in nbviewer](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/triscale_scalability.ipynb)]  
+- [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg) ](https://nbviewer.jupyter.org/github/TriScale-Anon/triscale/blob/master/triscale_scalability.ipynb)  
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/TriScale-Anon/triscale/master?filepath=triscale_scalability.ipynb)
