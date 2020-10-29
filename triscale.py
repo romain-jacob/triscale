@@ -35,7 +35,7 @@ def network_profiling(  link_quality_data,
     seasonal component that may be detected is a two-hour correlation).
 
     This function first performs TriScale's convergence test on the link quality
-    data (using 95% confidence level and 1% tolerance). The time series and
+    data (using 95% confidence level and 5% tolerance). The time series and
     its Theil-Sen [3] linear regression are plotted.
 
     If the convergence test is passed, the function continues with TriScale's
@@ -401,7 +401,7 @@ def analysis_metric(    data,
         Float between 0 and 100, default to 95.
         - "tolerance" : float, optional
         Tolerance for TriScale convergence test.
-        Float between 0 and 100, default to 1.
+        Float between 0 and 100, default to 5.
     plot : True/False, optional
         When true, generate a plot of the input data and convergence data
         (if any).
@@ -448,8 +448,8 @@ def analysis_metric(    data,
     # todo += '- modif convergence_test() to output a dictionary\n'
     todo += '- check for crazy values in the input dictionaries\n'
     todo += '# ---------------------------------------------------------------- \n'
-    if verbose:
-        print('%s' % todo)
+    # if verbose:
+    #     print('%s' % todo)
 
     ##
     # Checking the inputs
@@ -479,8 +479,9 @@ def analysis_metric(    data,
     # Verify that the csv file is not empty (at least some 'y' data is in there)
     df.dropna(inplace=True)
     if len(df.index) < 2:
-        print("%s\n-> Input data has only %d data points (min 2 required)\n"
-                        % ( repr(data), len(df.index) ))
+        if verbose:
+            print("%s\n-> Input data has only %d data points (min 2 required)\n"
+                            % ( repr(data), len(df.index) ))
         return False, np.nan, None
 
     # Initialize convenience variables
@@ -493,7 +494,8 @@ def analysis_metric(    data,
     if 'bounds' not in metric:
         metric['bounds'] = [df.y.min(), df.y.max()]
 
-    if 'name' not in metric:
+    if (('name' not in metric) or
+        (metric['name'] is None)):
         metric['name'] = None
         metric_label = ''
     else:
@@ -512,7 +514,7 @@ def analysis_metric(    data,
             # Default to 95% confidence
             convergence['confidence'] = 95
         if 'tolerance' not in convergence:
-            # Default to 1% tolerance
+            # Default to 5% tolerance
             convergence['tolerance'] = 5
     else:
         run_convergence_test = False
@@ -526,10 +528,9 @@ def analysis_metric(    data,
         fixed_window=True
         if fixed_window:
             ## Version with fixed window size
-            nb_chuncks = min(int(len(samples_y)/2), 100)
+            nb_chuncks = min(int(len(samples_y)/2)+1, 100)
             chunck_len = int(len(samples_y)/2)
-            step = chunck_len/nb_chuncks
-            # print(nb_chuncks,chunck_len, step)
+            step = chunck_len/(nb_chuncks-1)
             for i in range(0,nb_chuncks):
                 start_index = int(i*step)
                 stop_index = start_index+chunck_len
@@ -834,7 +835,7 @@ def analysis_kpi(data,
     if 'name' in KPI:
         layout.update(title=KPI['name'])
 
-    if to_plot is not None and not np.isnan(KPI_CI):
+    if to_plot is not None:
 
         if 'series' in to_plot:
             figure = theil_plot(
@@ -1111,7 +1112,7 @@ def analysis_report(data, meta_data, output_file_name=None):
           'bounds': [0,120]}
     convergence = {'expected': True,
                    'confidence': 95,  # in %
-                   'tolerance': 1,    # in %
+                   'tolerance': 5,    # in %
                   }
     KPI = {'percentile': 50,
            'confidence': 75,
