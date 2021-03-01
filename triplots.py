@@ -91,6 +91,7 @@ def theil_plot(  y,
                  metric_data=None,
                  convergence_data=None,
                  layout=None,
+                 raw_opacity=0.3,
                  out_name=None,
                  verbose=False):
 
@@ -139,7 +140,10 @@ def theil_plot(  y,
         x=x_subsampled,
         y=y_subsampled,
         mode='markers',
-        marker={'color':colors.blue}
+        marker={
+            'color':colors.blue,
+            'opacity':raw_opacity
+        }
     )
     figure.add_trace(trace)
 
@@ -286,7 +290,7 @@ def ThompsonCI_plot(    data,
 
         # Default layout
         default_layout = go.Layout(
-            yaxis={'visible':False, 'range':[-1,2]},
+            yaxis={'visible':False, 'range':[0,2]},
             height=250)
         figure.update_layout(default_layout)
 
@@ -299,40 +303,49 @@ def ThompsonCI_plot(    data,
             line={'color':'black'},
             name='Data',
                           )
-        # CI bounds
-        up_bound = go.Scatter(
-            x=[sorted_data[CI[1]], sorted_data[CI[1]]],
-            y=[-1, 2],
-            mode='lines+text',
-            # text=sorted_data[CI[1]],
-            line={'color':colors.orange, 'width':4},
-            hoverinfo='skip',
-            name='CI',
-            # textposition="top center",
-            # textfont={'size':18 },
-        )
-        lo_bound = go.Scatter(
-            x=[sorted_data[CI[0]], sorted_data[CI[0]]],
-            y=[-1,2],
-            mode='lines+text',
-            line={'color':colors.orange, 'width':4},
-            hoverinfo='skip',
-            name='CI',
-        )
 
-        if CI_bound == 'two-sided':
+
+        # CI bounds
+        if not(np.isnan(CI[1])):
+            up_bound = go.Scatter(
+                x=[sorted_data[CI[1]], sorted_data[CI[1]]],
+                y=[0, 2],
+                mode='lines+text',
+                # text=sorted_data[CI[1]],
+                line={'color':colors.orange, 'width':4},
+                hoverinfo='skip',
+                name='CI',
+                # textposition="top center",
+                # textfont={'size':18 },
+            )
+            if CI_bound == 'upper':
+                figure.add_trace(up_bound)
+                interval_shape['x0'] = min(data)
+                interval_shape['x1'] = sorted_data[CI[1]]
+
+
+        if not(np.isnan(CI[0])):
+            lo_bound = go.Scatter(
+                x=[sorted_data[CI[0]], sorted_data[CI[0]]],
+                y=[0,2],
+                mode='lines+text',
+                line={'color':colors.orange, 'width':4},
+                hoverinfo='skip',
+                name='CI',
+            )
+            if CI_bound == 'lower':
+                figure.add_trace(lo_bound)
+                interval_shape['x0'] = sorted_data[CI[0]]
+                interval_shape['x1'] = max(data)
+
+
+        if ((not np.isnan(CI[0])) and
+            (not np.isnan(CI[1])) and
+            (CI_bound == 'two-sided')):
             up_bound.showlegend = False
             figure.add_trace(up_bound)
             figure.add_trace(lo_bound)
             interval_shape['x0'] = sorted_data[CI[0]]
-            interval_shape['x1'] = sorted_data[CI[1]]
-        if CI_bound == 'lower':
-            figure.add_trace(lo_bound)
-            interval_shape['x0'] = sorted_data[CI[0]]
-            interval_shape['x1'] = max(data)
-        if CI_bound == 'upper':
-            figure.add_trace(up_bound)
-            interval_shape['x0'] = min(data)
             interval_shape['x1'] = sorted_data[CI[1]]
 
     ##
@@ -358,39 +371,45 @@ def ThompsonCI_plot(    data,
             name='Data',
                           )
         # CI bounds
-        up_bound = go.Scatter(
-            x=[0, len(data)+1],
-            y=[sorted_data[CI[1]], sorted_data[CI[1]]],
-            mode='lines',
-            line={'color':colors.orange, 'width':4},
-            hoverinfo='skip',
-            name='CI',
-        )
-        lo_bound = go.Scatter(
-            x=[0, len(data)+1],
-            y=[sorted_data[CI[0]], sorted_data[CI[0]]],
-            mode='lines',
-            line={'color':colors.orange, 'width':4},
-            hoverinfo='skip',
-            name='CI',
-        )
+        if not(np.isnan(CI[1])):
+            up_bound = go.Scatter(
+                x=[0, len(data)+1],
+                y=[sorted_data[CI[1]], sorted_data[CI[1]]],
+                mode='lines',
+                line={'color':colors.orange, 'width':4},
+                hoverinfo='skip',
+                name='CI',
+            )
+            if CI_bound == 'upper':
+                figure.add_trace(up_bound)
+                interval_shape['y0'] = min(data)
+                interval_shape['y1'] = sorted_data[CI[1]]
 
-        interval_shape['xref'] = 'paper'
-        interval_shape['yref'] = 'y'
-        if CI_bound == 'two-sided':
+        if not(np.isnan(CI[0])):
+            lo_bound = go.Scatter(
+                x=[0, len(data)+1],
+                y=[sorted_data[CI[0]], sorted_data[CI[0]]],
+                mode='lines',
+                line={'color':colors.orange, 'width':4},
+                hoverinfo='skip',
+                name='CI',
+            )
+            if CI_bound == 'lower':
+                figure.add_trace(lo_bound)
+                interval_shape['y0'] = sorted_data[CI[0]]
+                interval_shape['y1'] = max(data)
+
+        if ((not np.isnan(CI[0])) and
+            (not np.isnan(CI[1])) and
+            (CI_bound == 'two-sided')):
             up_bound.showlegend = False
             figure.add_trace(up_bound)
             figure.add_trace(lo_bound)
             interval_shape['y0'] = sorted_data[CI[0]]
             interval_shape['y1'] = sorted_data[CI[1]]
-        if CI_bound == 'lower':
-            figure.add_trace(lo_bound)
-            interval_shape['y0'] = sorted_data[CI[0]]
-            interval_shape['y1'] = max(data)
-        if CI_bound == 'upper':
-            figure.add_trace(up_bound)
-            interval_shape['y0'] = min(data)
-            interval_shape['y1'] = sorted_data[CI[1]]
+
+        interval_shape['xref'] = 'paper'
+        interval_shape['yref'] = 'y'
 
     ##
     # Customization and output
