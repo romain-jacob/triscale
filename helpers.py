@@ -54,7 +54,6 @@ def theilslopes_normalized(y,x,confidence,y_bounds=[],x_bounds=[], tolerance_val
 
     ## Regression on original series
     reg_orig = scipy.stats.theilslopes(y, x, confidence)
-    reg_orig = scipy.stats.theilslopes(y, x, confidence)
 
     ## Normalization to [-1,+1]
     # x
@@ -437,7 +436,8 @@ def ThompsonCI_onesided( n_samples, percentile, confidence, CI_side='lower', ver
     # compute all probabilities from the binomiale distribution for the percentile of interest
     bd=scipy.stats.binom(n_samples,p_work/100)
     ppm = [np.maximum(1-x,0.0) for x in np.cumsum([bd.pmf(k) for k in range(n_samples)])]
-    print([bd.pmf(k) for k in range(n_samples+1)])
+    # print([bd.pmf(k) for k in range(n_samples+1)])
+    # print([(1-bd.cdf(k)) for k in range(n_samples+1)])
     # print(ppm)
 
     # search the index defining a lower-bound for p_work
@@ -452,7 +452,7 @@ def ThompsonCI_onesided( n_samples, percentile, confidence, CI_side='lower', ver
                 break
 
     # return the requested CI index
-    if percentile == p_work:
+    if CI_side == 'lower':
         return CI
     else:
         return ((n_samples-1) - CI) # First index is 0 (not 1)
