@@ -7,6 +7,7 @@ This repository contains an implementation of _TriScale_ a framework supporting 
 Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Thiele (under submission), 2021.  
 [doi.org/10.5281/zenodo.3464273](https://doi.org/10.5281/zenodo.3464273)
 
+- [Tutorial](#Tutorial)
 - [Live Demo](#Live-Demo)
 - [Source Code](#Source-Code)
 - [Reproducing the Paper](#Reproducing-the-Paper)
