@@ -8,7 +8,7 @@
 >   
 > 👇  Please fill out this short survey  🙏   
 >   
-> [![TriScale_survey](prout.svg)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
+> [![TriScale_survey](github_badge_TriScale_Survey.svg)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 ---
 
 This repository contains an implementation of _TriScale_ a framework supporting reproducible performance evaluations in networking. _TriScale_ is described in details in the following paper
