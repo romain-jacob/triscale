@@ -12,6 +12,8 @@ Public API
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.io as pio
+pio.renderers.default='notebook'
 
 from helpers import convergence_test, ThompsonCI, ThompsonCI_onesided, independence_test, min_number_samples, repeatability_test
 from triplots import theil_plot, autocorr_plot, ThompsonCI_plot
@@ -295,11 +297,13 @@ def experiment_sizing(percentile,
 
     """
 
-    # todo = ''
-    # todo += '# ---------------------------------------------------------------- \n'
-    # todo += '# TODO experiment_design\n'
-    # todo += '# ---------------------------------------------------------------- \n'
-    # todo += '# ---------------------------------------------------------------- \n'
+    todo = ''
+    todo += '# ---------------------------------------------------------------- \n'
+    todo += '# TODO experiment_design\n'
+    todo += '# ---------------------------------------------------------------- \n'
+    todo += '# - adjust the  verbose output to say whether upper or lower bound is considered\n'
+    todo += '# - add an CI-side parameter to force computation of lower bound for >median percentiles\n'
+    todo += '# ---------------------------------------------------------------- \n'
     # if verbose:
     #     print('%s' % todo)
 
@@ -445,11 +449,15 @@ def analysis_metric(    data,
     todo += '# TODO analysis_metrics \n'
     todo += '# ---------------------------------------------------------------- \n'
     todo += '\n'
-    # todo += '- modif convergence_test() to output a dictionary\n'
+    todo += '- Adapt to pake a PosixPath as input\n'
+    todo += '- return an object?\n'
     todo += '- check for crazy values in the input dictionaries\n'
+    todo += '- change plot into show_plot\n'
+    # todo += '- \n'
+    # todo += '- \n'
     todo += '# ---------------------------------------------------------------- \n'
-    # if verbose:
-    #     print('%s' % todo)
+    if verbose:
+        print('%s' % todo)
 
     ##
     # Checking the inputs
@@ -725,6 +733,13 @@ def analysis_kpi(data,
     todo += '# ---------------------------------------------------------------- \n'
     todo += '# TODO analysis_kpi \n'
     todo += '# ---------------------------------------------------------------- \n'
+    todo += '# - default to min-max for bounds if not present \n'
+    todo += '# - replance "bound" by "side" \n'
+    todo += '# - update to use the newest Thompson CI function\n'
+    todo += '# - return an object?\n'
+    todo += '# - Improve the plot output (layout and doc!) \n'
+    todo += '# - Rename plot "horizontal" -> CI (remove the vertical one)\n'
+    # todo += '# -  \n'
     todo += '# ---------------------------------------------------------------- \n'
     if verbose:
         print('%s' % todo)
@@ -948,6 +963,8 @@ def analysis_variability(data,
     todo += '# ---------------------------------------------------------------- \n'
     todo += '# TODO analysis_repeatability \n'
     todo += '# ---------------------------------------------------------------- \n'
+    todo += '# - see the KPI todos \n'
+    todo += '# - simplify the output? \n'
     todo += '# ---------------------------------------------------------------- \n'
     if verbose:
         print('%s' % todo)

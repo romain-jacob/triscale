@@ -1,2 +1,5 @@
 /.ipynb_checkpoints/
+plots_*
+
+*/__pycache__/
 /__pycache__/
