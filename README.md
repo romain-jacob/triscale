@@ -1,6 +1,6 @@
 ![TriScale_logo](triscale_logo.svg)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master) 
 
 ---
 > Have you followed one of our tutorials on TriScale?  
@@ -8,7 +8,7 @@
 >   
 > 👇  Please fill out this short survey  🙏   
 >   
-> [![TriScale_survey](github_badge_TriScale_Survey.svg)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
+> [![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 ---
 
 This repository contains an implementation of _TriScale_ a framework supporting reproducible performance evaluations in networking. _TriScale_ is described in details in the following paper
@@ -27,7 +27,7 @@ Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Th
 ## Tutorial
 You are following a tutorial on TriScale? Here is the link you are looking for 
 > Click this `launch binder` button (it may take a few minutes to load)  
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=triscale_tutorial.ipynb)  
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=tutorial_exp-sizing.ipynb)  
 
 ## Live Demo
 You can run a live demo of _TriScale_ directly in your web-browser  
