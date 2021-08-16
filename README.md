@@ -27,7 +27,7 @@ Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Th
 ## Tutorial
 You are following a tutorial on TriScale? Here is the link you are looking for 
 > Click this `launch binder` button (it may take a few minutes to load)  
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=tutorial_exp-sizing.ipynb)  
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=live_exp-sizing.ipynb)  
 
 ## Live Demo
 You can run a live demo of _TriScale_ directly in your web-browser  
