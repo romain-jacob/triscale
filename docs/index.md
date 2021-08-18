@@ -38,7 +38,7 @@ See the [`README.md` file on GitHub](https://github.com/romain-jacob/triscale/bl
 
 ### Presentations
 
-For more resources, check out the _TriScale_'s [tutorial page](tutorial.md).
+For more resources, check out the _TriScale_'s [tutorial page](https://github.com/romain-jacob/triscale/blob/master/tutorial/README.md).
 
 > Research replicability in embedded learning  
 **Upcoming** ESWEEK Education, Virtual (October 2021)  
