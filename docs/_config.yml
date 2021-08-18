@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
-logo: ../assets/img/triscale_logo_vertical_border_color.svg
+logo: assets/img/triscale_logo_vertical_border_color.svg
 description: A Framework Supporting Replicable Performance Evaluations in Networking
 title: TriScale
