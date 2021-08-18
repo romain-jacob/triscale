@@ -1,4 +1,4 @@
-![TriScale_logo](../assets/img/triscale_logo.svg)
+![TriScale_logo](assets/img/triscale_logo.svg)
 
 ## A Framework Supporting Replicable Performance Evaluations in Networking
 
