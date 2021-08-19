@@ -80,6 +80,10 @@ This notebook presents the importance of accounting for seasonal components in t
 
 ## Slides and recordings
 
+Please note that the slides linked below are _no scripts or lecture notes_ but are really designed as support for live presentations: they are not always self-explanatory!
+
+To discover _TriScale,_ we advise starting with tutorial recordings (below) followed by self-study notebooks (above).
+
 > [Tutorial: Supporting Replicable Networking Experiments with TriScale](https://youtu.be/f9k7gS-QpWI)  
 4th CPS-IoTBench Workshop, Virtual (May 2021)  
 [![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/f9k7gS-QpWI)
