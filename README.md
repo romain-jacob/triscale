@@ -49,11 +49,13 @@ Plotting functions used in _TriScale._ All plots are created using [Plotly](http
 
 ## Reproducing the paper
 
-This repository contains all the necessary code and information to reproduce the results analysis and plots presented in the [_TriScale_ paper](https://doi.org/10.5281/zenodo.3464273).
+This repository contains all the necessary code and information to reproduce the results analysis and plots presented in the [_TriScale_ paper](https://doi.org/10.5281/zenodo.3464273). Jupyter notebooks are used as wrappers for all our data analysis.
+
+> **Note.** If you are not familiar with Jupyter notebooks, you can find some basic information on [_TriScale_'s tutorial page](tutorial/README.md).
 
 ### Reproduction alternatives
 
-Jupyter notebooks are used as wrappers for all our data analysis. We provide three options to reproduce the paper results:
+We provide three options to reproduce the paper results:
 
 1. [Online, using Binder;](#using-mybinderorg)
 1. [Online, using `nbviewer`;](#using-nbviewer)
