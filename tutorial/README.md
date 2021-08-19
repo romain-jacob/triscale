@@ -1,6 +1,6 @@
 ![TriScale_logo](../docs/assets/img/triscale_logo.svg)
 
-## A Framework Supporting Replicable Performance Evaluations in Networking
+# A Framework Supporting Replicable Performance Evaluations in Networking
 
 ---
 [![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://doi.org/10.5281/zenodo.3464273)&nbsp;&nbsp;
@@ -16,9 +16,9 @@
 > **Tell us about your experience!**  
 > If you followed one of our tutorials on _TriScale_,  
 > we would love to hear what you thought about it!  
-> Please fill out this short survey (5min max)  🙏   
->   
-> 👇&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
+> 🙏 &nbsp;&nbsp; Please fill out this short survey (5min max)     
+> 
+> 👉&nbsp;&nbsp;&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 
 We have two sets of tutorial materials for _TriScale_:
 
