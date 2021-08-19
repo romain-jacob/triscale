@@ -1,14 +1,13 @@
 name: triscale
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - pandas
   - scipy
   - numpy
-  - jupyter
   - notebook
   - pyyaml
   - plotly=5.2.1
   - python-kaleido
-  - ipywidgets
 prefix: /home/user/miniconda3/envs/triscale
