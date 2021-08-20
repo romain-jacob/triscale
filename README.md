@@ -7,7 +7,8 @@ This repository contains an implementation of _TriScale_, a framework supporting
 _TriScale_ is described in details in the following paper
 
 > _Designing Replicable Networking Experiments with TriScale_  
-Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Thiele (under submission), 2021.  
+Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Thiele   
+(under submission), 2021.  
 [doi.org/10.5281/zenodo.3464273](https://doi.org/10.5281/zenodo.3464273)
 
 Check out the project webpage for more info:  
