@@ -48,7 +48,7 @@ There are two sets of notebooks covering tutorial materials for _TriScale_. One 
 
 We recommend that you run the tutorial notebooks online, using [Binder](mybinder.org), by simply clicking the `launch binder` buttons listed below (it may take a few minutes to load the first time).
 
-Alternatively, you can of course run them locally after cloning this repo and installing the corresponding dependencies (see [instructions](../triscale#running-locally)).
+Alternatively, you can of course run them locally after cloning this repo and installing the corresponding dependencies (see [instructions](../README.md#running-locally)).
 
 ### Experiment sizing
 
