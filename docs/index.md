@@ -59,7 +59,8 @@ For more resources, check out the _TriScale_'s [tutorial page](https://github.co
 **Upcoming** ESWEEK Education, Virtual (October 2021)  
 
 > Tutorial: Supporting Replicable Networking Experiments with TriScale  
-**Upcoming** ACM SIGCOMM 2021, Virtual (August 2021)  
+ACM SIGCOMM 2021, Virtual (August 2021)   
+[![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/) (Video will follow soon)
 
 > [Tutorial: Supporting Replicable Networking Experiments with TriScale](https://youtu.be/f9k7gS-QpWI)  
 4th CPS-IoTBench Workshop, Virtual (May 2021)  
