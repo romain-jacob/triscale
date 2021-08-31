@@ -10,7 +10,7 @@
 <!--![docs](https://img.shields.io/badge/-Documentation-orange?logo=googlesheets)-->
 
 ---
-
+<!--
 > Following a live tutorial session? Here are the links you're looking for
 
 |Hands-on ||
@@ -25,6 +25,7 @@
 > 👉&nbsp;&nbsp;&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 
 --- 
+--> 
 
 When designing their performance evaluations, networking researchers often encounter questions such as:
 
@@ -60,7 +61,8 @@ For more resources, check out the _TriScale_'s [tutorial page](https://github.co
 
 > Tutorial: Supporting Replicable Networking Experiments with TriScale  
 ACM SIGCOMM 2021, Virtual (August 2021)   
-[![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/) (Video will follow soon)
+[![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/)&nbsp;&nbsp;
+[![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/KVA0MZszI-4)
 
 > [Tutorial: Supporting Replicable Networking Experiments with TriScale](https://youtu.be/f9k7gS-QpWI)  
 4th CPS-IoTBench Workshop, Virtual (May 2021)  
