@@ -10,22 +10,23 @@
 <!--![docs](https://img.shields.io/badge/-Documentation-orange?logo=googlesheets)-->
 
 ---
-<!--
+
 > Following a live tutorial session? Here are the links you're looking for
 
 |Hands-on ||
 |:---|:---|
-|Part 1 |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=tutorial_notebook-basics.ipynb)  |
+|Part 1 |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=live_exp-sizing.ipynb)  |
 |Part 2 |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=live_data-analysis.ipynb)  |
+|Notebook Basics |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/romain-jacob/triscale/master?filepath=tutorial_notebook-basics.ipynb)  |
 
 > **Tell us about your experience!**  
 > If you followed one of our tutorials on _TriScale_, we would love to hear what you thought about it!  
-> 🙏 &nbsp;&nbsp; Please fill out this short survey (5min max)     
+> 🙏 &nbsp;&nbsp; Please fill out this short survey (5min max)   
 > 
 > 👉&nbsp;&nbsp;&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 
 --- 
---> 
+
 
 When designing their performance evaluations, networking researchers often encounter questions such as:
 
