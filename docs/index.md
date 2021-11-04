@@ -11,6 +11,7 @@
 
 ---
 
+<!--
 > Following a live tutorial session? Here are the links you're looking for
 
 |Hands-on ||
@@ -26,7 +27,7 @@
 > 👉&nbsp;&nbsp;&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 
 --- 
-
+-->
 
 When designing their performance evaluations, networking researchers often encounter questions such as:
 
@@ -57,10 +58,13 @@ See the [`README.md` file on GitHub](https://github.com/romain-jacob/triscale/bl
 
 For more resources, check out the _TriScale_'s [tutorial page](https://github.com/romain-jacob/triscale/blob/master/tutorial/README.md).
 
-> Research replicability in embedded learning  
-**Upcoming** ESWEEK Education, Virtual (October 2021)  
+> [Research replicability in embedded learning](https://youtu.be/UYv_e1lt16Y)  
+ESWEEK Education, Virtual (October 2021)  
+[![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/UYv_e1lt16Y)
+<!-- [![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/)&nbsp;&nbsp; -->
 
-> Tutorial: Supporting Replicable Networking Experiments with TriScale  
+
+> [Tutorial: Supporting Replicable Networking Experiments with TriScale](https://youtu.be/KVA0MZszI-4)  
 ACM SIGCOMM 2021, Virtual (August 2021)   
 [![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/)&nbsp;&nbsp;
 [![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/KVA0MZszI-4)
