@@ -60,8 +60,8 @@ For more resources, check out the _TriScale_'s [tutorial page](https://github.co
 
 > [Research replicability in embedded learning](https://youtu.be/UYv_e1lt16Y)  
 ESWEEK Education, Virtual (October 2021)  
-[![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/UYv_e1lt16Y)
-<!-- [![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://osf.io/9cvnd/)&nbsp;&nbsp; -->
+[![video](https://img.shields.io/badge/-Video-blue?logo=youtube)](https://youtu.be/UYv_e1lt16Y)&nbsp;&nbsp;
+[![slides](https://img.shields.io/badge/-Slides-blue?logo=airplayvideo)](https://mfr.de-1.osf.io/render?url=https://osf.io/s2amu/?direct%26mode=render%26action=download%26mode=render)
 
 
 > [Tutorial: Supporting Replicable Networking Experiments with TriScale](https://youtu.be/KVA0MZszI-4)  
