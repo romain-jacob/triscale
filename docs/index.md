@@ -3,7 +3,8 @@
 ## A Framework Supporting Replicable Performance Evaluations in Networking
 
 ---
-[![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://doi.org/10.5281/zenodo.3464273)&nbsp;&nbsp;
+<!-- [![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://doi.org/10.5281/zenodo.3464273)&nbsp;&nbsp; -->
+[![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://escholarship.org/uc/item/63n4s9w2)&nbsp;&nbsp;
 [![code](https://img.shields.io/badge/_-Code-blue?logo=github)](https://github.com/romain-jacob/triscale)&nbsp;&nbsp;
 [![tutorial](https://img.shields.io/badge/-Tutorial-blue?logo=airplayvideo)](https://github.com/romain-jacob/triscale/blob/master/tutorial/README.md)&nbsp;&nbsp;
 [![group](https://img.shields.io/badge/-Discussion-blue?logo=theconversation)](https://groups.google.com/g/triscale)
@@ -86,14 +87,22 @@ EWSN Conference, Lyon, France (February 2020)
 
 ```bibtex
 @proceedings{jacob2021triscale,
-  title        = {Designing Replicable Networking Experiments with 
-                   TriScale},
-  author       = {Jacob, Romain and Zimmerling, Marco and Boano, Carlo Alberto and Vanbever, Laurent and Thiele, Lothar},
-  year         = 2021,
-  publisher    = {Zenodo},
-  month        = aug,
-  doi          = {10.5281/zenodo.5211642},
-  url          = {https://doi.org/10.5281/zenodo.5211642}
+  title         = {Designing Replicable Networking Experiments with TriScale},
+  author        = {Jacob, Romain and Zimmerling, Marco and Boano, Carlo Alberto and Vanbever, Laurent and Thiele, Lothar},
+  year          = 2021,
+  doi           = {10.5281/zenodo.5211642},
+  year          = {2021},
+  month         = nov,
+  journal       = {JSys},
+  volume        = {1},
+  number        = {1},
+  issn          = {2770-5501},
+  url           = {https://escholarship.org/uc/item/63n4s9w2},
+  urldate       = {2021-11-15},
+  area          = {Networking},
+  artifacts_url = {https://github.com/romain-jacob/triscale},
+  langid        = {english},
+  review_url    = {https://openreview.net/forum?id=c1LNi8CTPy6},
 }
 ```
 
