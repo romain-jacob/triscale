@@ -787,7 +787,10 @@ def analysis_kpi(data,
     ##
     if len(data) < 2:
         weak_stationary = False
-        print("Invalid metric data (only one data point)")
+        if len(data) == 0:
+            print("Invalid metric data (no data points)")
+        else:
+            print("Invalid metric data (only one data point)")
         return weak_stationary, np.nan
 
     # Step 1: weak stationarity
