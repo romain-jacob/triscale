@@ -549,9 +549,9 @@ def analysis_metric(    data,
                     if metric['measure'] == 'mean':
                         metric_y.append(np.mean(samples_y[start_index:stop_index]))
                     elif metric['measure'] == 'minimum':
-                        metric_y.append(np.minimum(samples_y[start_index:stop_index]))
+                        metric_y.append(np.amin(samples_y[start_index:stop_index]))
                     elif metric['measure'] == 'maximum':
-                        metric_y.append(np.maximum(samples_y[start_index:stop_index]))
+                        metric_y.append(np.amax(samples_y[start_index:stop_index]))
                     else:
                         raise ValueError('Unsupported measure')
                 else:
