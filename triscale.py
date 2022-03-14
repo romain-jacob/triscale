@@ -549,9 +549,9 @@ def analysis_metric(    data,
                     if metric['measure'] == 'mean':
                         metric_y.append(np.mean(samples_y[start_index:stop_index]))
                     elif metric['measure'] == 'minimum':
-                        metric_y.append(np.minimum(samples_y[start_index:stop_index]))
+                        metric_y.append(np.amin(samples_y[start_index:stop_index]))
                     elif metric['measure'] == 'maximum':
-                        metric_y.append(np.maximum(samples_y[start_index:stop_index]))
+                        metric_y.append(np.amax(samples_y[start_index:stop_index]))
                     else:
                         raise ValueError('Unsupported measure')
                 else:
@@ -787,7 +787,10 @@ def analysis_kpi(data,
     ##
     if len(data) < 2:
         weak_stationary = False
-        print("Invalid metric data (only one data point)")
+        if len(data) == 0:
+            print("Invalid metric data (no data points)")
+        else:
+            print("Invalid metric data (only one data point)")
         return weak_stationary, np.nan
 
     # Step 1: weak stationarity
