@@ -733,7 +733,6 @@ def analysis_kpi(data,
     todo += '# ---------------------------------------------------------------- \n'
     todo += '# TODO analysis_kpi \n'
     todo += '# ---------------------------------------------------------------- \n'
-    todo += '# - default to min-max for bounds if not present \n'
     todo += '# - replance "bound" by "side" \n'
     todo += '# - update to use the newest Thompson CI function\n'
     todo += '# - return an object?\n'
@@ -774,9 +773,7 @@ def analysis_kpi(data,
                              "\t\tspecify the desired 'bound': 'lower' of 'upper'")
 
     if 'bounds' not in KPI:
-        raise ValueError(
-            """Specify the expected bounds for the metric data;
-            if bounds are unknown, use min and max values.""")
+        KPI['bounds'] = [data.min(), data.max()]
 
     # For now, we assume the inputs are correct...
     output_log = ''
