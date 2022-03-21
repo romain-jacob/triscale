@@ -19,7 +19,8 @@ http://triscale.ethz.ch/
 [![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://doi.org/10.5281/zenodo.3464273)&nbsp;&nbsp;
 [![code](https://img.shields.io/badge/_-Code-blue?logo=github)](https://github.com/romain-jacob/triscale)&nbsp;&nbsp;
 [![tutorial](https://img.shields.io/badge/-Tutorial-blue?logo=airplayvideo)](https://github.com/romain-jacob/triscale/blob/master/tutorial/README.md)&nbsp;&nbsp;
-[![group](https://img.shields.io/badge/-Discussion-blue?logo=theconversation)](https://groups.google.com/g/triscale)
+[![group](https://img.shields.io/badge/-Discussion-blue?logo=theconversation)](https://github.com/romain-jacob/triscale/discussions)
+<!-- [![group](https://img.shields.io/badge/-Discussion-blue?logo=theconversation)](https://groups.google.com/g/triscale) -->
 <!--![docs](https://img.shields.io/badge/-Documentation-orange?logo=googlesheets)-->
 
 ---
