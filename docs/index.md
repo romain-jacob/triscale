@@ -3,7 +3,6 @@
 ## A Framework Supporting Replicable Performance Evaluations in Networking
 
 ---
-<!-- [![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://doi.org/10.5281/zenodo.3464273)&nbsp;&nbsp; -->
 [![paper](https://img.shields.io/badge/_-Paper-blue?logo=adobeacrobatreader)](https://escholarship.org/uc/item/63n4s9w2)&nbsp;&nbsp;
 [![code](https://img.shields.io/badge/_-Code-blue?logo=github)](https://github.com/romain-jacob/triscale)&nbsp;&nbsp;
 [![tutorial](https://img.shields.io/badge/-Tutorial-blue?logo=airplayvideo)](https://github.com/romain-jacob/triscale/blob/master/tutorial/README.md)&nbsp;&nbsp;
@@ -12,7 +11,7 @@
 
 ---
 
-<!--
+
 > Following a live tutorial session? Here are the links you're looking for
 
 |Hands-on ||
@@ -28,7 +27,7 @@
 > 👉&nbsp;&nbsp;&nbsp;&nbsp;[![TriScale_survey](https://img.shields.io/badge/feedback-tutorial-brightgreen)](https://docs.google.com/forms/d/e/1FAIpQLScYvkl8D_F6RhVL9qvAoXud6BCWNHiMk00WulEN44JM0tAFhg/viewform?usp=sf_link)
 
 --- 
--->
+
 
 When designing their performance evaluations, networking researchers often encounter questions such as:
 
@@ -90,7 +89,7 @@ EWSN Conference, Lyon, France (February 2020)
   title         = {Designing Replicable Networking Experiments with TriScale},
   author        = {Jacob, Romain and Zimmerling, Marco and Boano, Carlo Alberto and Vanbever, Laurent and Thiele, Lothar},
   year          = 2021,
-  doi           = {10.5281/zenodo.5211642},
+  doi           = {10.5070/SR31155408},
   year          = {2021},
   month         = nov,
   journal       = {JSys},
@@ -114,5 +113,5 @@ EWSN Conference, Lyon, France (February 2020)
 |[Laurent Vanbever](https://vanbever.eu/)|[![orcid](https://zenodo.org/static/img/orcid.png)](https://orcid.org/0000-0003-1455-4381)|
 |[Lothar Thiele](https://people.ee.ethz.ch/~thiele/)|[![orcid](https://zenodo.org/static/img/orcid.png)](https://orcid.org/0000-0001-6139-868X)|
 
-[Contact us](https://groups.google.com/g/triscale)
+[Contact us](https://github.com/romain-jacob/triscale/discussions)
 

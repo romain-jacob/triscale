@@ -8,8 +8,8 @@ _TriScale_ is described in details in the following paper
 
 > _Designing Replicable Networking Experiments with TriScale_  
 Romain Jacob, Marco Zimmerling, Carlo Alberto Boano, Laurent Vanbever, Lothar Thiele   
-(under submission), 2021.  
-[doi.org/10.5281/zenodo.3464273](https://doi.org/10.5281/zenodo.3464273)
+Journal of Systems Research (JSys), 2021.  
+[doi.org/10.5070/SR31155408](https://doi.org/10.5070/SR31155408)
 
 Check out the project webpage for more info:  
 http://triscale.ethz.ch/
